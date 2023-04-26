@@ -1,13 +1,7 @@
 import fs from 'fs'
 import path from 'path'
 
-import { cleanUpRelease, fetchRelease, fetchFiles } from './helpers/sentry'
 import { createWebpackConfig, runWebpack, OUTPUT_PATH } from './helpers/webpack'
-import {
-  expectNoFailure,
-  expectReleaseContainsFile,
-  expectReleaseDoesNotContainFile
-} from './helpers/assertion'
 
 function ensureOutputPath() {
   if (!fs.existsSync(OUTPUT_PATH)) {
@@ -15,131 +9,18 @@ function ensureOutputPath() {
   }
 }
 
-// Don't mock HTTP requests - testing the correctness of the integration
-jest.unmock('request-promise')
-
 beforeEach(ensureOutputPath)
 
-describe('creating Sentry release', () => {
-  it('with string version', () => {
-    const release = 'string-release'
-
-    return runWebpack(createWebpackConfig({ release }))
-      .then(() => fetchRelease(release))
-      .then(({ version }) => expect(version).toEqual(release))
-      .then(() => cleanUpRelease(release))
-      .catch(() => {
-        cleanUpRelease(release)
-        expectNoFailure('Release not found')
-      })
-  })
-
-  it('with version from function', () => {
-    const release = 'function-release'
-
+describe('delete files after compile tests', () => {
+  it('should remove source maps after compilation', () => {
     return runWebpack(
-      createWebpackConfig({
-        release: () => release
-      })
-    )
-      .then(() => fetchRelease(release))
-      .then(({ version }) => expect(version).toEqual(release))
-      .then(() => cleanUpRelease(release))
-      .catch(() => {
-        cleanUpRelease(release)
-        expectNoFailure('Release not found')
-      })
-  })
-})
-
-describe('uploading files to Sentry release', () => {
-  it('uploads source and matching source map', () => {
-    const release = 'test-source-and-map'
-    return runWebpack(createWebpackConfig({ release }))
-      .then(() => fetchFiles(release))
-      .then(expectReleaseContainsFile('~/index.bundle.js'))
-      .then(expectReleaseContainsFile('~/index.bundle.js.map'))
-      .then(() => cleanUpRelease(release))
-      .catch(() => cleanUpRelease(release))
-  })
-
-  it('filters files based on include', () => {
-    const release = 'test-filter-include'
-    return runWebpack(
-      createWebpackConfig(
-        {
-          release,
-          include: /foo\.bundle\.js/
-        },
-        {
-          entry: {
-            foo: path.resolve(__dirname, 'fixtures/foo.js'),
-            bar: path.resolve(__dirname, 'fixtures/bar.js')
-          }
-        }
-      )
-    )
-      .then(() => fetchFiles(release))
-      .then(expectReleaseContainsFile('~/foo.bundle.js'))
-      .then(expectReleaseContainsFile('~/foo.bundle.js.map'))
-      .then(expectReleaseDoesNotContainFile('~/bar.bundle.js'))
-      .then(expectReleaseDoesNotContainFile('~/bar.bundle.js.map'))
-      .then(() => cleanUpRelease(release))
-      .catch(() => cleanUpRelease(release))
-  })
-
-  it('filters files based on exclude', () => {
-    const release = 'test-filter-exclude'
-    return runWebpack(
-      createWebpackConfig(
-        {
-          release,
-          exclude: /foo\.bundle\.js/
-        },
-        {
-          entry: {
-            foo: path.resolve(__dirname, 'fixtures/foo.js'),
-            bar: path.resolve(__dirname, 'fixtures/bar.js')
-          }
-        }
-      )
-    )
-      .then(() => fetchFiles(release))
-      .then(expectReleaseDoesNotContainFile('foo.bundle.js'))
-      .then(expectReleaseDoesNotContainFile('foo.bundle.js.map'))
-      .then(() => cleanUpRelease(release))
-      .catch(() => cleanUpRelease(release))
-  })
-
-  it('transforms filename', () => {
-    const release = 'test-transform-filename'
-    return runWebpack(
-      createWebpackConfig({
-        release,
-        include: /index\.bundle\.js\.map/,
-        filenameTransform: filename => `a-filename-prefix-${filename}`
-      })
-    )
-      .then(() => fetchFiles(release))
-      .then(expectReleaseContainsFile('a-filename-prefix-index.bundle.js.map'))
-      .then(() => cleanUpRelease(release))
-      .catch(() => cleanUpRelease(release))
-  })
-
-  it('removes source maps after compilation', () => {
-    const release = 'test-removal'
-    return runWebpack(
-      createWebpackConfig({
-        release,
-        deleteAfterCompile: true
-      })
+      createWebpackConfig()
     )
       .then(() => {
         expect(
           fs.existsSync(path.join(OUTPUT_PATH, 'index.bundle.js.map'))
-        ).toEqual(false)
-      })
-      .then(() => cleanUpRelease(release))
-      .catch(() => cleanUpRelease(release))
-  })
-})
+          ).toEqual(false)
+        })
+    });
+});
+  

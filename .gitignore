@@ -1,5 +1,4 @@
 .env
-.opt-in
 node_modules
 .tmp/
 dist/

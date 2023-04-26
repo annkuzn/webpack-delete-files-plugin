@@ -1,8 +1,0 @@
-.idea
-.tmp
-.babelrc
-.env
-.env.example
-
-src
-test
