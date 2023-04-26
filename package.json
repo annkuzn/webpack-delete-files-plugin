@@ -1,6 +1,6 @@
 {
   "name": "webpack-delete-files-plugin",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Webpack plugin to delete files after compile",
   "main": "dist/index.js",
   "files": [
@@ -14,6 +14,10 @@
     "test:record": "VCR_MODE=record jest",
     "precommit": "lint-staged && yarn lint:pre-commit && yarn test",
     "prepublish": "yarn build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:annkuzn/webpack-delete-files-plugin.git"
   },
   "dependencies": {
     "es6-promise-pool": "^2.5.0",
