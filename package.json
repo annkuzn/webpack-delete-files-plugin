@@ -1,6 +1,6 @@
 {
   "name": "webpack-delete-files-plugin",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Webpack plugin to delete files after compile",
   "main": "dist/index.js",
   "files": [
