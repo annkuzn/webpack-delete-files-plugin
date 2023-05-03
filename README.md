@@ -24,9 +24,14 @@ const WebpackMoveFilesAfterCompilePlugin = require('webpack-move-files-after-com
 2. Add to webpack config:
 
 Required params:
+  path relative to the root directory;
 
 - `moveFrom` - the path to the directory from which you want to move files;
+
 - `moveTo` - the path to the directory where you want to move the files;
+             This directory should not be used to store other files. 
+             It is cleared at each compilation before new files are written.
+             If the destination directory does not exist, it will be created automatically.
 
 ```js
 const config = {
