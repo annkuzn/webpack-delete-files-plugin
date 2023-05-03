@@ -11,8 +11,8 @@ function ensureOutputPath() {
 
 beforeEach(ensureOutputPath)
 
-describe('delete files after compile tests', () => {
-  it('should remove source maps after compilation', () => {
+describe('move files after compile tests', () => {
+  it('should move source maps after compilation', () => {
     return runWebpack(
       createWebpackConfig()
     )

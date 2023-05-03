@@ -1,7 +1,7 @@
 import path from 'path'
 import replayer from 'replayer'
 import webpack from 'webpack'
-import DeleteFilesAfterCompilePlugin from '../../src/index';
+import WebpackMoveFilesAfterCompilePlugin from '../../src/index';
 
 export const OUTPUT_PATH = path.resolve(__dirname, '../../.tmp');
 
@@ -25,7 +25,10 @@ export function createWebpackConfig() {
 			path: OUTPUT_PATH,
 			filename: '[name].bundle.js',
 		},
-		plugins: [new DeleteFilesAfterCompilePlugin()],
+		plugins: [new WebpackMoveFilesAfterCompilePlugin({
+			moveFrom: OUTPUT_PATH,
+			moveTo: "source-maps"
+		})],
 	});
 };
 

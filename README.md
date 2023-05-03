@@ -1,47 +1,56 @@
-# Plugin for delete files after webpack compile
-
-The current is compatible with webpack 4 and 5 and requires at least NodeJS 6.
-
+# Plugin for move files after webpack compile
 ### Installation
 
 Using npm:
 
 ```
-$ npm install webpack-delete-files-plugin --save-dev
+$ npm install webpack-move-files-after-compile-plugin --save-dev
 ```
 
 Using yarn:
 
 ```
-$ yarn add webpack-delete-files-plugin --dev
+$ yarn add webpack-move-files-after-compile-plugin --dev
 ```
 
 ### Usage
 
-1. Require `webpack-delete-files-plugin`:
+1. Require `webpack-move-files-after-compile-plugin`:
 
 ```js
-var DeleteFilesPlugin = require('webpack-delete-files-plugin');
+const WebpackMoveFilesAfterCompilePlugin = require('webpack-move-files-after-compile-plugin');
 ```
 
 2. Add to webpack config:
 
+Required params:
+
+- `moveFrom` - the path to the directory from which you want to move files;
+- `moveTo` - the path to the directory where you want to move the files;
+
 ```js
-var config = {
+const config = {
  plugins: [
-   new DeleteFilesPlugin()
+   new WebpackMoveFilesAfterCompilePlugin({
+     moveFrom: 'dist/path',
+     moveTo: 'source-maps'
+   })
  ]
 }
 ```
 
 #### Parameters
 
-- `deleteRegex` - regex to determine, which files to delete. Default: `/\.map$/`;
+- `regexForMove` - regex to determine, which files to move. Default: `/\.map$/`;
 
 ```js
-var config = {
+const config = {
   plugins: [
-    new DeleteFilesPlugin(/\.js$/)
+    new WebpackMoveFilesAfterCompilePlugin({
+      moveFrom: 'dist/path',
+      moveTo: 'source-maps',
+      regexForMove: /\.js$/
+    })
   ]
 }
 ```

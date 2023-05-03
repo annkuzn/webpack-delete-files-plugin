@@ -1,0 +1,31 @@
+{
+    "env": {
+        "node": true,
+        "es6": true
+    },
+    "rules": {
+        "no-multi-spaces": ["error"],
+        "no-restricted-globals": [
+            "error",
+            {
+                "name": "Element",
+                "message": "It is undefined and crashes SSR"
+            }
+        ],
+        "no-underscore-dangle": ["off"],
+        "react/jsx-filename-extension": [
+            "error",
+            {
+                "extensions": [".ts", ".tsx"]
+            }
+        ],
+        "react/no-array-index-key": ["off"],
+        "import/no-cycle": ["off"],
+        "@typescript-eslint/consistent-type-imports": [
+            "error",
+            {
+                "disallowTypeAnnotations": false
+            }
+        ]
+    }
+}

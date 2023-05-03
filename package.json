@@ -1,15 +1,15 @@
 {
-  "name": "webpack-delete-files-plugin",
+  "name": "webpack-move-files-after-compile-plugin",
   "version": "1.0.4",
-  "description": "Webpack plugin to delete files after compile",
+  "description": "Webpack plugin to move files after compile",
   "main": "dist/index.js",
   "files": [
     "dist"
   ],
   "scripts": {
     "build": "babel src --out-dir dist",
-    "lint": "eslint --ext .js,.jsx,.ts,.tsx src --max-warnings=0 --cache",
-    "lint:pre-commit": "eslint --config eslint.precommit.json --ext .js src --max-warnings=0 --cache",
+    "lint": "eslint --ext .js,.jsx,.ts,.tsx src --max-warnings=0",
+    "lint:pre-commit": "eslint --config eslint.precommit.json --ext .js src --max-warnings=0",
     "test": "VCR_MODE=playback jest",
     "test:record": "VCR_MODE=record jest",
     "precommit": "lint-staged && yarn lint:pre-commit && yarn test",
@@ -17,30 +17,23 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:annkuzn/webpack-delete-files-plugin.git"
-  },
-  "dependencies": {
-    "es6-promise-pool": "^2.5.0",
-    "request": "^2.85.0",
-    "request-promise": "^4.2.2"
+    "url": "git@github.com:annkuzn/webpack-move-files-after-compile-plugin.git"
   },
   "devDependencies": {
     "@babel/cli": "^7.4.3",
     "@babel/core": "^7.4.3",
     "@babel/preset-env": "^7.4.3",
     "babel-jest": "^24.7.1",
-    "dotenv": "^5.0.1",
     "eslint": "^8.39.0",
     "eslint-config-airbnb-base": "^12.1.0",
-    "eslint-plugin-import": "^2.10.0",
+    "eslint-plugin-import": "^2.27.5",
     "jest": "^29.5.0",
     "prettier": "^1.11.1",
     "prettier-eslint-cli": "^4.7.1",
     "replayer": "^2.2.3",
-    "test-all-versions": "^4.1.1",
     "webpack": "^5.0.0-beta.13"
   },
   "peerDependencies": {
-    "webpack": "^4 || ^5.0.0-alpha.11"
+    "webpack": "^5.0.0"
   }
 }
